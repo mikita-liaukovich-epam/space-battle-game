@@ -1,0 +1,16 @@
+* {
+  padding: 0; margin: 0;
+}
+canvas {
+  background: #010c3d;
+  display: block;
+  margin: 0 auto;
+  /*width: 100%;
+  height: 100%;*/
+}
+
+body {
+  background: #000418;
+  width: 100vw;
+  height: 100vh;
+}
