@@ -14,7 +14,6 @@ var fireY = shipY;
 var shots = [];
 var enemiesTxt = ['./assets/enemy01.png', './assets/enemy02.png', './assets/enemy04.png'];
 var enemies = [];
-var enemyX = canvas.width;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -83,13 +82,15 @@ function drawReload() {
   }
 
 function addEnemy() {
-  enemies.push((canvas.height/2)+(canvas.height/2-shipHeight)*Math.sin(Math.random()*7+0));
+  let altitude = (canvas.height/2)+(canvas.height/2-shipHeight)*Math.sin(Math.random()*7+0);
+  let rand = Math.floor(Math.random()*3);
+  enemies.push({x: canvas.width-100, y: altitude, texture: enemiesTxt[rand], speed: rand });
 }
 
 function collisionDetection() {
   enemies.forEach((enemy, i) => {
     shots.forEach((shot, j) => {
-      if (shot.y > enemy && shot.y < enemy+shipHeight && shot.x > enemyX) {
+      if (shot.y > enemy.y && shot.y < enemy.y+shipHeight && shot.x > enemy.x) {
         enemies.splice(i,1);
         shots.splice(j,1);
       }
@@ -97,30 +98,30 @@ function collisionDetection() {
   })
 }
 
-function drawEnemy(enemyY) {
+function drawEnemy(enX, enY, enTxt) {
   let img = new Image();
-  img.src = enemiesTxt[1];
+  img.src = enTxt;
   ctx.beginPath();
-  ctx.drawImage(img, enemyX, enemyY, shipHeight, shipWidth);
+  ctx.drawImage(img, enX, enY, shipHeight, shipWidth);
   ctx.closePath();
 }
-
+setInterval(addEnemy, 1000);
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawShip();
   collisionDetection();
 
-  if (enemies.length < 4) addEnemy();
-  enemies.forEach((enemyY) => {
-    drawEnemy(enemyY);
+  enemies.forEach((enemy) => {
+    drawEnemy(enemy.x, enemy.y, enemy.texture);
+    enemy.x-=(4+enemy.speed);
   });
-  enemyX-=4;
+
 
   if (upPressed && shipY > 0) {
-    shipY -= 7;
+    shipY -= 10;
   }
   else if(downPressed && shipY < canvas.height-shipHeight) {
-    shipY += 7;
+    shipY += 10;
   }
 
   shots.forEach((item) => {
