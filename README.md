@@ -6,6 +6,6 @@ What is done:
 * Firing on space or left click
 * Enemy's death on collision with shot
 
-Current version (in test) - https://nicklevkovich.github.io/space-battle-game/
+Current version (in test) - https://mikitaliaukovich.github.io/space-battle-game/
 
 ![Sceenshot](https://telegra.ph/file/bb6caf4fffa8f4de31384.png)
